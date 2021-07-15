@@ -22,6 +22,7 @@ export default {
 .column {
   width: 320px;
   background-color: #555;
+  color: aliceblue;
 }
 .column__header {
   background-color: rgb(238, 173, 53);
