@@ -1,6 +1,8 @@
 <template>
   <div class="card-list">
     <card />
+    <card />
+    <card />
   </div>
 </template>
 
@@ -14,4 +16,7 @@ export default {
 </script>
 
 <style>
+.card-list > *:not(:last-child) {
+  margin-bottom: 1em;
+}
 </style>

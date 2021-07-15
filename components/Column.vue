@@ -19,4 +19,19 @@ export default {
 </script>
 
 <style>
+.column {
+  width: 320px;
+  background-color: #555;
+}
+.column__header {
+  background-color: rgb(238, 173, 53);
+  height: 3em;
+  padding: 0 1em;
+  display: flex;
+  align-items: center;
+}
+.column__body {
+  min-height: 2em;
+  padding: 1em;
+}
 </style>
