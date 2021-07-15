@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <button class="card__remove-btn"></button>
+    <button class="card__remove-btn btn"></button>
     <p><strong>id:</strong> 1</p>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, veniam.
@@ -25,6 +25,5 @@ export default {}
   top: 0.5em;
   right: 0.5em;
   background-color: #555;
-  border: none;
 }
 </style>
