@@ -1,8 +1,21 @@
-<template></template>
+<template>
+  <div class="container">
+    <column />
+  </div>
+</template>
 
 <script>
-export default {}
+import Column from '@/components/Column.vue'
+export default {
+  components: {
+    Column,
+  },
+}
 </script>
 
 <style>
+.container {
+  display: flex;
+  flex: 1;
+}
 </style>
