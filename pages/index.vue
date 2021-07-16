@@ -17,6 +17,13 @@ export default {
   computed: mapState({
     cards: (state) => state.cards,
   }),
+  beforeMount() {
+    if (localStorage.hasOwnProperty('cards'))
+      localStorage.getItem(JSON.parse('cards'))
+  },
+  updated() {
+    localStorage.setItem(JSON.stringify(this.$store.state.cards))
+  },
 }
 </script>
 
@@ -32,7 +39,7 @@ export default {
   flex: 1;
   padding: 10vh;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 2em;
   flex-wrap: wrap;
 }
