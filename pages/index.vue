@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <row :rowNumber="0" />
-    <row :rowNumber="1" />
-    <row :rowNumber="2" />
-    <row :rowNumber="3" />
+    <row v-for="number in 4" :key="number" :rowNumber="number - 1" />
   </div>
 </template>
 

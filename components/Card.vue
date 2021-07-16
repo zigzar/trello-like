@@ -1,6 +1,9 @@
 <template>
   <div class="card">
-    <button class="card__remove-btn btn"></button>
+    <button
+      class="card__remove-btn btn"
+      @click="$emit('removeCard', card.id)"
+    ></button>
     <p><strong>id:</strong> {{ card.id }}</p>
     <p>
       {{ card.text }}

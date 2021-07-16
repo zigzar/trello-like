@@ -14,7 +14,6 @@ export const getters = {
   },
   getCards: (state) => (row) => {
     return state.cards.filter(function (card) {
-      console.log(card.row == row)
       return card.row == row
     })
   },
@@ -33,6 +32,9 @@ export const mutations = {
   addCard(state, card) {
     state.cards.push(card)
   },
+  removeCard(state, index) {
+    state.cards.splice(index, 1)
+  },
 }
 
 export const actions = {
@@ -46,7 +48,8 @@ export const actions = {
     )
     await commit('setToken', response.data.token)
   },
-  async fetch({ state, commit }) {
+  async fetch({ state, commit, dispatch }) {
+    dispatch('refreshToken')
     let response = await axios.get(
       'https://trello.backend.tests.nekidaem.ru/api/v1/cards/',
       {
@@ -59,7 +62,6 @@ export const actions = {
     commit('setCards', data)
     let quantityArr = [0, 0, 0, 0]
     data.forEach((card) => {
-      console.log(Number(card.row))
       quantityArr[Number(card.row)]++
     })
     commit('setRowQuantity', quantityArr)
@@ -67,7 +69,8 @@ export const actions = {
   getQuantity({ state }, row) {
     return state.rowQuantity[row]
   },
-  async addCard({ state, commit }, body) {
+  async addCard({ state, commit, dispatch }, body) {
+    dispatch('refreshToken')
     let response = await axios.post(
       'https://trello.backend.tests.nekidaem.ru/api/v1/cards/',
 
@@ -79,5 +82,31 @@ export const actions = {
       }
     )
     commit('addCard', response.data)
+  },
+  async removeCard({ state, commit, dispatch }, id, index) {
+    dispatch('refreshToken')
+    await axios.delete(
+      `https://trello.backend.tests.nekidaem.ru/api/v1/cards/${id}/`,
+      {
+        headers: {
+          Authorization: `JWT ${state.token}`,
+        },
+      }
+    )
+    commit('removeCard', index)
+  },
+  async refreshToken({ state, commit }) {
+    let response = await axios.post(
+      'https://trello.backend.tests.nekidaem.ru/api/v1/users/refresh_token/',
+      {
+        token: state.token,
+      },
+      {
+        headers: {
+          Authorization: `JWT ${state.token}`,
+        },
+      }
+    )
+    await commit('setToken', response.data.token)
   },
 }

@@ -1,6 +1,11 @@
 <template>
   <div class="card-list">
-    <card v-for="card in cards" :key="card.id" :card="card" />
+    <card
+      v-for="card in cards"
+      :key="card.id"
+      :card="card"
+      @removeCard="removeCard"
+    />
   </div>
 </template>
 
@@ -24,6 +29,15 @@ export default {
   methods: {
     getCards() {
       this.cards = this.$store.getters.getCards(this.rowNumber)
+    },
+    removeCard(id) {
+      let index = this.cards.findIndex((card) => card.id == id)
+      if (index != -1) {
+        this.cards.splice(index, 1)
+        this.$store.dispatch('removeCard', id, index)
+      } else {
+        alert(`Карточки с id ${id} не существует`)
+      }
     },
   },
   mounted() {
