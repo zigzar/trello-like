@@ -1,4 +1,4 @@
-# trello-like app
+# Trello-like app
 Simple kanban desk with a drag & drop function.
 Used API for cards: "Like Kanban API" by Nekidaem team.
 
@@ -20,6 +20,7 @@ $ npm run generate
 ```
 
 ## Used technologies
-* nuxt
-* vue
-* vuedraggable
+* Nuxt.js
+* Vue.js
+* Vuex
+* Vuedraggable
