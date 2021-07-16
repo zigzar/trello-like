@@ -1,20 +1,25 @@
 <template>
   <div>
     <draggable
-      class="card-list"
       :list="cards"
-      group="cardRows"
       @change="$emit('changeSeq', $event)"
       itemKey="card"
+      v-bind="dragOptions"
+      @start="drag = true"
+      @end="drag = false"
     >
-      <!-- <transition-group> -->
-      <card
-        v-for="card in cards"
-        :key="card.id"
-        :card="card"
-        @removeCard="removeCard"
-      />
-      <!-- </transition-group> -->
+      <transition-group
+        class="card-list"
+        type="transition"
+        :name="!drag ? 'flip-list' : null"
+      >
+        <card
+          v-for="card in cards"
+          :key="card.id"
+          :card="card"
+          @removeCard="removeCard"
+        />
+      </transition-group>
     </draggable>
   </div>
 </template>
@@ -42,6 +47,16 @@ export default {
   watch: {
     cards() {
       this.$emit('updateQuantity', this.cards.length)
+    },
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: 'cardRows',
+        disabled: false,
+        ghostClass: 'ghost',
+      }
     },
   },
 }

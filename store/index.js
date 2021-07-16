@@ -104,7 +104,7 @@ export const actions = {
         },
       }
     )
-    await dispatch('fetch')
+    await dispatch('fetch') // TODO: replace fetch with state.cards updating
   },
   async refreshToken({ state, commit }) {
     let response = await axios.post(
