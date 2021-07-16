@@ -118,7 +118,6 @@ export default {
   text-transform: uppercase;
 }
 .row__body {
-  min-height: 4em;
   padding: 1em;
 }
 .row__add-btn {

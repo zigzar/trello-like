@@ -87,4 +87,7 @@ export default {
 .card-list > *:not(:last-child) {
   margin-bottom: 1em;
 }
+.card-list {
+  min-height: 4em;
+}
 </style>
