@@ -1,4 +1,4 @@
-# Trello-like app
+# Trello-like app with Vue.js
 Simple kanban desk with a drag & drop function.
 Used API for cards: "Like Kanban API" by Nekidaem team.
 
