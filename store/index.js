@@ -39,19 +39,28 @@ export const state = () => ({
       text: 'Create Vuex storage',
     },
   ],
+  rowQuantity: [0, 0, 0, 0],
 })
 
 export const mutations = {
   setCards(store, payload) {
     store.cards = payload
   },
+  setRowQuantity(store, payload) {
+    store.rowQuantity = payload
+  },
 }
 
 export const actions = {
   async fetch({ store, commit }) {
-    commit(
-      'setCards',
-      await axios.get('https://trello.backend.tests.nekidaem.ru/api/v1/cards/')
+    let cards = await axios.get(
+      'https://trello.backend.tests.nekidaem.ru/api/v1/cards/'
     )
+    commit('setCards', cards)
+    let quantityArr = []
+    cards.forEach((card) => {
+      quantityArr[card.row]++
+    })
+    commit('setRowQuantity', quantityArr)
   },
 }
