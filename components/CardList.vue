@@ -4,7 +4,7 @@
       class="card-list"
       :list="cards"
       group="cardRows"
-      @change="log"
+      @change="$emit('change', $event)"
       itemKey="card"
     >
       <!-- <transition-group> -->
@@ -28,57 +28,21 @@ export default {
     draggable,
   },
   props: {
-    rowNumber: {
-      type: Number,
+    cards: {
+      type: Array,
       required: true,
+      default: [],
     },
-  },
-  data() {
-    return {
-      cards: [],
-    }
   },
   methods: {
-    getCards() {
-      this.cards = this.$store.getters.getCards(this.rowNumber)
-    },
     removeCard(id) {
-      let index = this.cards.findIndex((card) => card.id == id)
-      if (index != -1) {
-        this.cards.splice(index, 1)
-        this.$store.dispatch('removeCard', id, index)
-      } else {
-        alert(`Карточки с id ${id} не существует`)
-      }
-    },
-    async log(evt) {
-      if (evt.removed) return
-      if (evt.added) {
-        var card = {
-          id: evt.added.element.id,
-          row: this.rowNumber,
-          seq_num: evt.added.newIndex,
-          text: evt.added.element.text,
-        }
-      }
-      if (evt.moved) {
-        var card = {
-          id: evt.moved.element.id,
-          row: this.rowNumber,
-          seq_num: evt.moved.newIndex,
-          text: evt.moved.element.text,
-        }
-      }
-      await this.$store.dispatch('updateCard', card)
+      this.$emit('removeCard', id)
     },
   },
   watch: {
     cards() {
       this.$emit('updateQuantity', this.cards.length)
     },
-  },
-  mounted() {
-    this.getCards()
   },
 }
 </script>

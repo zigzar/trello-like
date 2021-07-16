@@ -4,7 +4,12 @@
       {{ row.header }} ({{ quantity }})
     </h3>
     <div class="row__body">
-      <card-list :rowNumber="rowNumber" @updateQuantity="updateQuantity" />
+      <card-list
+        @updateQuantity="updateQuantity"
+        @removeCard="removeCard"
+        @change="changeSeq"
+        :cards="cards"
+      />
     </div>
     <div class="row__add-btn btn" v-if="!inputVisible" @click="showInput">
       <div class="btn__plus"></div>
@@ -39,12 +44,12 @@ export default {
       row: {},
       quantity: 0,
       inputVisible: false,
+      cards: [],
     }
   },
   methods: {
     updateQuantity(newQuantity) {
       if (newQuantity !== undefined) this.quantity = newQuantity
-      console.log(this.quantity)
     },
     showInput() {
       this.inputVisible = true
@@ -52,12 +57,44 @@ export default {
     hideInput() {
       this.inputVisible = false
     },
-    addCard(text) {
-      this.$store.dispatch('addCard', { row: this.rowNumber, text: text })
+    async addCard(text) {
+      await this.$store.dispatch('addCard', { row: this.rowNumber, text: text })
       this.hideInput()
+      this.cards = this.$store.getters.getCards(this.rowNumber)
+    },
+    removeCard(id) {
+      let index = this.cards.findIndex((card) => card.id == id)
+      if (index != -1) {
+        this.cards.splice(index, 1)
+        this.$store.dispatch('removeCard', id, index)
+      } else {
+        alert(`Карточки с id ${id} не существует`)
+      }
+    },
+    async changeSeq(evt) {
+      if (evt.removed) return
+      if (evt.added) {
+        var card = {
+          id: evt.added.element.id,
+          row: this.rowNumber,
+          seq_num: evt.added.newIndex,
+          text: evt.added.element.text,
+        }
+      }
+      if (evt.moved) {
+        var card = {
+          id: evt.moved.element.id,
+          row: this.rowNumber,
+          seq_num: evt.moved.newIndex,
+          text: evt.moved.element.text,
+        }
+      }
+      await this.$store.dispatch('updateCard', card)
     },
   },
+
   mounted() {
+    this.cards = this.$store.getters.getCards(this.rowNumber)
     this.updateQuantity()
     switch (this.rowNumber) {
       case 0:
@@ -85,9 +122,6 @@ export default {
         }
         break
     }
-  },
-  updated() {
-    this.updateQuantity()
   },
 }
 </script>

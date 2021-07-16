@@ -1,30 +1,23 @@
 <template>
   <div class="container">
-    <row v-for="number in 4" :key="number" :rowNumber="number - 1" />
+    <row v-for="number in rowQuantity" :key="number" :rowNumber="number - 1" />
   </div>
 </template>
 
 <script>
 import Row from '@/components/Row.vue'
-import { mapState } from 'vuex'
 export default {
   components: {
     Row,
   },
-  computed: mapState({
-    cards: (state) => state.cards,
-  }),
+  data() {
+    return {
+      rowQuantity: 4,
+    }
+  },
   async asyncData({ store }) {
     await store.dispatch('auth')
     await store.dispatch('fetch')
-  },
-  async beforeMount() {
-    // if (localStorage.hasOwnProperty('cards'))
-    //   localStorage.getItem(JSON.parse('cards'))
-  },
-  async mounted() {},
-  updated() {
-    // localStorage.setItem(JSON.stringify(this.$store.state.cards))
   },
 }
 </script>
