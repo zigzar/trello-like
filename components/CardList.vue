@@ -1,19 +1,31 @@
 <template>
-  <div class="card-list">
-    <card
-      v-for="card in cards"
-      :key="card.id"
-      :card="card"
-      @removeCard="removeCard"
-    />
+  <div>
+    <draggable
+      class="card-list"
+      :list="cards"
+      group="cardRows"
+      @add="log"
+      itemKey="card"
+    >
+      <!-- <transition-group> -->
+      <card
+        v-for="card in cards"
+        :key="card.id"
+        :card="card"
+        @removeCard="removeCard"
+      />
+      <!-- </transition-group> -->
+    </draggable>
   </div>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import Card from '@/components/Card.vue'
 export default {
   components: {
     Card,
+    draggable,
   },
   props: {
     rowNumber: {
@@ -38,6 +50,9 @@ export default {
       } else {
         alert(`Карточки с id ${id} не существует`)
       }
+    },
+    log(evt) {
+      console.log(evt)
     },
   },
   mounted() {
