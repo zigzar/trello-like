@@ -51,19 +51,30 @@ export default {
         alert(`Карточки с id ${id} не существует`)
       }
     },
-    log(evt) {
+    async log(evt) {
+      if (evt.removed) return
       if (evt.added) {
-        console.log(
-          `Обновляем карточку с id ${evt.added.element.id}. Место: ${evt.added.newIndex}. Ряд: ${this.rowNumber}`
-        )
-        let card = {
+        var card = {
           id: evt.added.element.id,
           row: this.rowNumber,
           seq_num: evt.added.newIndex,
           text: evt.added.element.text,
         }
-        this.$store.dispatch('updateCard', card)
       }
+      if (evt.moved) {
+        var card = {
+          id: evt.moved.element.id,
+          row: this.rowNumber,
+          seq_num: evt.moved.newIndex,
+          text: evt.moved.element.text,
+        }
+      }
+      await this.$store.dispatch('updateCard', card)
+    },
+  },
+  watch: {
+    cards() {
+      this.$emit('updateQuantity', this.cards.length)
     },
   },
   mounted() {

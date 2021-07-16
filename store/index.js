@@ -60,11 +60,11 @@ export const actions = {
     )
     let data = response.data
     commit('setCards', data)
-    let quantityArr = [0, 0, 0, 0]
-    data.forEach((card) => {
-      quantityArr[Number(card.row)]++
-    })
-    commit('setRowQuantity', quantityArr)
+    // let quantityArr = [0, 0, 0, 0]
+    // data.forEach((card) => {
+    //   quantityArr[Number(card.row)]++
+    // })
+    // commit('setRowQuantity', quantityArr)
   },
   getQuantity({ state }, row) {
     return state.rowQuantity[row]
@@ -95,7 +95,7 @@ export const actions = {
     )
     commit('removeCard', index)
   },
-  async updateCard({ state, commit, dispatch }, card) {
+  async updateCard({ state, dispatch }, card) {
     dispatch('refreshToken')
     await axios.patch(
       `https://trello.backend.tests.nekidaem.ru/api/v1/cards/${card.id}/`,
@@ -106,7 +106,6 @@ export const actions = {
         },
       }
     )
-    //commit('removeCard', index)
   },
   async refreshToken({ state, commit }) {
     let response = await axios.post(
