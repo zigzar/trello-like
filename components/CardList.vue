@@ -4,7 +4,7 @@
       class="card-list"
       :list="cards"
       group="cardRows"
-      @add="log"
+      @change="log"
       itemKey="card"
     >
       <!-- <transition-group> -->
@@ -52,7 +52,18 @@ export default {
       }
     },
     log(evt) {
-      console.log(evt)
+      if (evt.added) {
+        console.log(
+          `Обновляем карточку с id ${evt.added.element.id}. Место: ${evt.added.newIndex}. Ряд: ${this.rowNumber}`
+        )
+        let card = {
+          id: evt.added.element.id,
+          row: this.rowNumber,
+          seq_num: evt.added.newIndex,
+          text: evt.added.element.text,
+        }
+        this.$store.dispatch('updateCard', card)
+      }
     },
   },
   mounted() {

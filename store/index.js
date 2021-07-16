@@ -95,6 +95,19 @@ export const actions = {
     )
     commit('removeCard', index)
   },
+  async updateCard({ state, commit, dispatch }, card) {
+    dispatch('refreshToken')
+    await axios.patch(
+      `https://trello.backend.tests.nekidaem.ru/api/v1/cards/${card.id}/`,
+      card,
+      {
+        headers: {
+          Authorization: `JWT ${state.token}`,
+        },
+      }
+    )
+    //commit('removeCard', index)
+  },
   async refreshToken({ state, commit }) {
     let response = await axios.post(
       'https://trello.backend.tests.nekidaem.ru/api/v1/users/refresh_token/',
