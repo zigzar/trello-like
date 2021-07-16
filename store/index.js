@@ -1,3 +1,5 @@
+import axios from '@nuxtjs/axios'
+
 export const state = () => ({
   cards: [
     {
@@ -39,4 +41,17 @@ export const state = () => ({
   ],
 })
 
-export const mutations = {}
+export const mutations = {
+  setCards(store, payload) {
+    store.cards = payload
+  },
+}
+
+export const actions = {
+  async fetch({ store, commit }) {
+    commit(
+      'setCards',
+      await axios.get('https://trello.backend.tests.nekidaem.ru/api/v1/cards/')
+    )
+  },
+}
