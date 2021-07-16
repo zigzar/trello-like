@@ -1,45 +1,11 @@
-import axios from '@nuxtjs/axios'
+import axios from 'axios'
 
 export const state = () => ({
-  cards: [
-    {
-      id: 1798,
-      row: '0',
-      seq_num: 0,
-      text: 'Create components architecture',
-    },
-    {
-      id: 1800,
-      row: '0',
-      seq_num: 1,
-      text: 'Deal with it',
-    },
-    {
-      id: 1801,
-      row: '0',
-      seq_num: 2,
-      text: 'string1',
-    },
-    {
-      id: 1802,
-      row: '0',
-      seq_num: 3,
-      text: 'string2',
-    },
-    {
-      id: 1803,
-      row: '0',
-      seq_num: 4,
-      text: 'string3',
-    },
-    {
-      id: 1799,
-      row: '1',
-      seq_num: 0,
-      text: 'Create Vuex storage',
-    },
-  ],
-  rowQuantity: [5, 0, 1, 0],
+  cards: [],
+  rowQuantity: [0, 0, 0, 0],
+  username: 'test_100',
+  password: 'test12345678',
+  token: '',
 })
 
 export const getters = {
@@ -49,22 +15,41 @@ export const getters = {
 }
 
 export const mutations = {
-  setCards(store, payload) {
-    store.cards = payload
+  setCards(state, payload) {
+    state.cards = payload
   },
-  setRowQuantity(store, payload) {
-    store.rowQuantity = payload
+  setRowQuantity(state, payload) {
+    state.rowQuantity = payload
+  },
+  setToken(state, token) {
+    state.token = token
   },
 }
 
 export const actions = {
-  async fetch({ store, commit }) {
-    let cards = await axios.get(
-      'https://trello.backend.tests.nekidaem.ru/api/v1/cards/'
+  async auth({ state, commit }) {
+    let response = await axios.post(
+      'https://trello.backend.tests.nekidaem.ru/api/v1/users/login/',
+      {
+        username: state.username,
+        password: state.password,
+      }
     )
-    commit('setCards', cards)
+    await commit('setToken', response.data.token)
+  },
+  async fetch({ state, commit }) {
+    let token = state.token
+    let response = await axios.get(
+      'https://trello.backend.tests.nekidaem.ru/api/v1/cards/',
+      {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      }
+    )
+    commit('setCards', response.data)
     let quantityArr = []
-    cards.forEach((card) => {
+    response.data.forEach((card) => {
       quantityArr[card.row]++
     })
     commit('setRowQuantity', quantityArr)
