@@ -1,18 +1,22 @@
 <template>
   <div class="container">
-    <column />
-    <column />
-    <column />
-    <column />
+    <row :rowNumber="0" />
+    <row :rowNumber="1" />
+    <row :rowNumber="2" />
+    <row :rowNumber="3" />
   </div>
 </template>
 
 <script>
-import Column from '@/components/Column.vue'
+import Row from '@/components/Row.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
-    Column,
+    Row,
   },
+  computed: mapState({
+    cards: (state) => state.cards,
+  }),
 }
 </script>
 
