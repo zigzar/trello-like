@@ -4,7 +4,7 @@
       class="card-list"
       :list="cards"
       group="cardRows"
-      @change="$emit('change', $event)"
+      @change="$emit('changeSeq', $event)"
       itemKey="card"
     >
       <!-- <transition-group> -->

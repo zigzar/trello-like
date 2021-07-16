@@ -7,7 +7,7 @@
       <card-list
         @updateQuantity="updateQuantity"
         @removeCard="removeCard"
-        @change="changeSeq"
+        @changeSeq="changeSeq"
         :cards="cards"
       />
     </div>
@@ -60,7 +60,7 @@ export default {
     async addCard(text) {
       await this.$store.dispatch('addCard', { row: this.rowNumber, text: text })
       this.hideInput()
-      this.cards = this.$store.getters.getCards(this.rowNumber)
+      this.cards = await this.$store.getters.getCards(this.rowNumber)
     },
     removeCard(id) {
       let index = this.cards.findIndex((card) => card.id == id)
@@ -73,8 +73,9 @@ export default {
     },
     async changeSeq(evt) {
       if (evt.removed) return
+      let card
       if (evt.added) {
-        var card = {
+        card = {
           id: evt.added.element.id,
           row: this.rowNumber,
           seq_num: evt.added.newIndex,
@@ -82,7 +83,7 @@ export default {
         }
       }
       if (evt.moved) {
-        var card = {
+        card = {
           id: evt.moved.element.id,
           row: this.rowNumber,
           seq_num: evt.moved.newIndex,

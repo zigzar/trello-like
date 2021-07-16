@@ -13,9 +13,7 @@ export const getters = {
     return state.rowQuantity[row]
   },
   getCards: (state) => (row) => {
-    return state.cards.filter(function (card) {
-      return card.row == row
-    })
+    return state.cards.filter((card) => card.row == row)
   },
 }
 
@@ -70,7 +68,7 @@ export const actions = {
     return state.rowQuantity[row]
   },
   async addCard({ state, commit, dispatch }, body) {
-    dispatch('refreshToken')
+    await dispatch('refreshToken')
     let response = await axios.post(
       'https://trello.backend.tests.nekidaem.ru/api/v1/cards/',
 
@@ -81,7 +79,7 @@ export const actions = {
         },
       }
     )
-    commit('addCard', response.data)
+    await commit('addCard', response.data)
   },
   async removeCard({ state, commit, dispatch }, id, index) {
     dispatch('refreshToken')
@@ -96,7 +94,7 @@ export const actions = {
     commit('removeCard', index)
   },
   async updateCard({ state, dispatch }, card) {
-    dispatch('refreshToken')
+    await dispatch('refreshToken')
     await axios.patch(
       `https://trello.backend.tests.nekidaem.ru/api/v1/cards/${card.id}/`,
       card,
@@ -106,6 +104,7 @@ export const actions = {
         },
       }
     )
+    await dispatch('fetch')
   },
   async refreshToken({ state, commit }) {
     let response = await axios.post(

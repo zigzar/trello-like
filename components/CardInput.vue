@@ -7,7 +7,7 @@
       v-model="text"
     ></textarea>
     <div class="card-input__btns btns">
-      <button class="btns__add btn" @click="$emit('addCard', text)">
+      <button class="btns__add btn" @click="addCard(text)">
         Добавить карточку
       </button>
       <button class="btns__cancel btn" @click="$emit('hideInput')"></button>
@@ -28,7 +28,12 @@ export default {
       text: '',
     }
   },
-  methods: {},
+  methods: {
+    addCard(text) {
+      this.$emit('addCard', text)
+      text = ''
+    },
+  },
 }
 </script>
 
