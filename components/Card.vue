@@ -26,15 +26,17 @@ export default {
 <style>
 .card {
   padding: 1em;
-  background-color: #222;
+  background-color: #333;
   position: relative;
 }
 .card__remove-btn {
-  width: 1em;
-  height: 1em;
+  width: 0.7em;
+  height: 0.7em;
   position: absolute;
   top: 0.5em;
   right: 0.5em;
-  background-color: #555;
+  background: url('static/close.svg');
+  background-position: center center;
+  background-size: contain;
 }
 </style>

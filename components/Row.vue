@@ -134,16 +134,16 @@ export default {
   color: aliceblue;
 }
 .row__header_on-hold {
-  background-color: rgb(238, 173, 53);
+  background-color: rgb(235, 163, 30);
 }
 .row__header_in-progress {
   background-color: rgb(53, 149, 238);
 }
 .row__header_needs-review {
-  background-color: rgb(233, 236, 53);
+  background-color: rgb(210, 221, 48);
 }
 .row__header_approved {
-  background-color: rgb(111, 190, 47);
+  background-color: rgb(78, 212, 66);
 }
 .row__header {
   height: 3em;
@@ -166,7 +166,9 @@ export default {
 .btn__plus {
   width: 1em;
   height: 1em;
-  background-color: #999;
   margin-right: 1em;
+  background: url('static/plus.svg');
+  background-position: center center;
+  background-size: contain;
 }
 </style>

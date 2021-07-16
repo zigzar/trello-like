@@ -67,9 +67,11 @@ export default {
   padding: 0.5em 1.5em;
 }
 .btns__cancel {
-  width: 1.5em;
-  height: 1.5em;
+  width: 1em;
+  height: 1em;
   margin-left: 1em;
-  background-color: #999;
+  background: url('static/close.svg');
+  background-position: center center;
+  background-size: contain;
 }
 </style>
