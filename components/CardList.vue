@@ -11,11 +11,23 @@ export default {
     Card,
   },
   props: {
-    cards: {
-      type: Array,
+    rowNumber: {
+      type: Number,
       required: true,
-      default: [],
     },
+  },
+  data() {
+    return {
+      cards: [],
+    }
+  },
+  methods: {
+    getCards() {
+      this.cards = this.$store.getters.getCards(this.rowNumber)
+    },
+  },
+  mounted() {
+    this.getCards()
   },
 }
 </script>

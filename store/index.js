@@ -30,6 +30,9 @@ export const mutations = {
   setToken(state, token) {
     state.token = token
   },
+  addCard(state, card) {
+    state.cards.push(card)
+  },
 }
 
 export const actions = {
@@ -44,12 +47,11 @@ export const actions = {
     await commit('setToken', response.data.token)
   },
   async fetch({ state, commit }) {
-    let token = state.token
     let response = await axios.get(
       'https://trello.backend.tests.nekidaem.ru/api/v1/cards/',
       {
         headers: {
-          Authorization: `JWT ${token}`,
+          Authorization: `JWT ${state.token}`,
         },
       }
     )
@@ -64,5 +66,18 @@ export const actions = {
   },
   getQuantity({ state }, row) {
     return state.rowQuantity[row]
+  },
+  async addCard({ state, commit }, body) {
+    let response = await axios.post(
+      'https://trello.backend.tests.nekidaem.ru/api/v1/cards/',
+
+      body,
+      {
+        headers: {
+          Authorization: `JWT ${state.token}`,
+        },
+      }
+    )
+    commit('addCard', response.data)
   },
 }

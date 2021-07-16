@@ -4,9 +4,12 @@
       placeholder="Ввести заголовок для этой карточки"
       name="field"
       class="card-input__field"
+      v-model="text"
     ></textarea>
     <div class="card-input__btns btns">
-      <button class="btns__add btn">Добавить карточку</button>
+      <button class="btns__add btn" @click="$emit('addCard', text)">
+        Добавить карточку
+      </button>
       <button class="btns__cancel btn" @click="$emit('hideInput')"></button>
     </div>
   </div>
@@ -19,6 +22,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      text: '',
+    }
   },
   methods: {},
 }

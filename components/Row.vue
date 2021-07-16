@@ -4,13 +4,17 @@
       {{ row.header }} ({{ quantity }})
     </h3>
     <div class="row__body">
-      <card-list :cards="cards" />
+      <card-list :rowNumber="rowNumber" />
     </div>
     <div class="row__add-btn btn" v-if="!inputVisible" @click="showInput">
       <div class="btn__plus"></div>
       <p class="btn__text">Добавить карточку</p>
     </div>
-    <card-input :show="inputVisible" @hideInput="hideInput" />
+    <card-input
+      :show="inputVisible"
+      @hideInput="hideInput"
+      @addCard="addCard"
+    />
   </div>
 </template>
 
@@ -35,15 +39,11 @@ export default {
       row: {},
       quantity: 0,
       inputVisible: false,
-      cards: [],
     }
   },
   methods: {
     updateQuantity() {
       this.quantity = this.$store.getters.getQuantity(this.rowNumber)
-    },
-    getCards() {
-      this.cards = this.$store.getters.getCards(this.rowNumber)
     },
     showInput() {
       this.inputVisible = true
@@ -51,10 +51,13 @@ export default {
     hideInput() {
       this.inputVisible = false
     },
+    addCard(text) {
+      this.$store.dispatch('addCard', { row: this.rowNumber, text: text })
+      this.hideInput()
+    },
   },
   mounted() {
     this.updateQuantity()
-    this.getCards()
     switch (this.rowNumber) {
       case 0:
         this.row = {
