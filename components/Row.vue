@@ -1,20 +1,23 @@
 <template>
   <div class="row">
-    <h3 class="row__header" :class="row.class">{{ row.header }} (0)</h3>
+    <h3 class="row__header" :class="row.class">
+      {{ row.header }} ({{ quantity }})
+    </h3>
     <div class="row__body">
       <card-list />
     </div>
-    <div class="row__add-btn btn">
+    <div class="row__add-btn btn" v-if="!inputVisible" @click="showInput">
       <div class="btn__plus"></div>
       <p class="btn__text">Добавить карточку</p>
     </div>
-    <card-input />
+    <card-input :show="inputVisible" @hideInput="hideInput" />
   </div>
 </template>
 
 <script>
 import CardList from '@/components/CardList.vue'
 import CardInput from '@/components/CardInput.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     CardList,
@@ -30,9 +33,23 @@ export default {
   data() {
     return {
       row: {},
+      quantity: 0,
+      inputVisible: false,
     }
   },
+  methods: {
+    updateQuantity() {
+      this.quantity = this.$store.getters.getQuantity(this.rowNumber)
+    },
+    showInput() {
+      this.inputVisible = true
+    },
+    hideInput() {
+      this.inputVisible = false
+    },
+  },
   mounted() {
+    this.updateQuantity()
     switch (this.rowNumber) {
       case 0:
         this.row = {

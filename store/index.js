@@ -39,8 +39,14 @@ export const state = () => ({
       text: 'Create Vuex storage',
     },
   ],
-  rowQuantity: [0, 0, 0, 0],
+  rowQuantity: [5, 0, 1, 0],
 })
+
+export const getters = {
+  getQuantity: (state) => (row) => {
+    return state.rowQuantity[row]
+  },
+}
 
 export const mutations = {
   setCards(store, payload) {
@@ -62,5 +68,8 @@ export const actions = {
       quantityArr[card.row]++
     })
     commit('setRowQuantity', quantityArr)
+  },
+  getQuantity({ state }, row) {
+    return state.rowQuantity[row]
   },
 }

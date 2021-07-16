@@ -1,5 +1,5 @@
 <template>
-  <div class="card-input">
+  <div class="card-input" v-if="show">
     <textarea
       placeholder="Ввести заголовок для этой карточки"
       name="field"
@@ -7,13 +7,21 @@
     ></textarea>
     <div class="card-input__btns btns">
       <button class="btns__add btn">Добавить карточку</button>
-      <button class="btns__cancel btn"></button>
+      <button class="btns__cancel btn" @click="$emit('hideInput')"></button>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  methods: {},
+}
 </script>
 
 <style>
