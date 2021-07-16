@@ -20,15 +20,14 @@ export default {
   async asyncData({ store }) {
     await store.dispatch('auth')
     await store.dispatch('fetch')
-    console.log(store.state.cards)
   },
   async beforeMount() {
-    if (localStorage.hasOwnProperty('cards'))
-      localStorage.getItem(JSON.parse('cards'))
+    // if (localStorage.hasOwnProperty('cards'))
+    //   localStorage.getItem(JSON.parse('cards'))
   },
   async mounted() {},
   updated() {
-    localStorage.setItem(JSON.stringify(this.$store.state.cards))
+    // localStorage.setItem(JSON.stringify(this.$store.state.cards))
   },
 }
 </script>

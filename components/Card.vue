@@ -1,15 +1,23 @@
 <template>
   <div class="card">
     <button class="card__remove-btn btn"></button>
-    <p><strong>id:</strong> 1</p>
+    <p><strong>id:</strong> {{ card.id }}</p>
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, veniam.
+      {{ card.text }}
     </p>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    card: {
+      type: Object,
+      required: true,
+      default: {},
+    },
+  },
+}
 </script>
 
 <style>

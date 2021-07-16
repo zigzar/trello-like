@@ -4,7 +4,7 @@
       {{ row.header }} ({{ quantity }})
     </h3>
     <div class="row__body">
-      <card-list />
+      <card-list :cards="cards" />
     </div>
     <div class="row__add-btn btn" v-if="!inputVisible" @click="showInput">
       <div class="btn__plus"></div>
@@ -35,11 +35,15 @@ export default {
       row: {},
       quantity: 0,
       inputVisible: false,
+      cards: [],
     }
   },
   methods: {
     updateQuantity() {
       this.quantity = this.$store.getters.getQuantity(this.rowNumber)
+    },
+    getCards() {
+      this.cards = this.$store.getters.getCards(this.rowNumber)
     },
     showInput() {
       this.inputVisible = true
@@ -50,6 +54,7 @@ export default {
   },
   mounted() {
     this.updateQuantity()
+    this.getCards()
     switch (this.rowNumber) {
       case 0:
         this.row = {
@@ -76,6 +81,9 @@ export default {
         }
         break
     }
+  },
+  updated() {
+    this.updateQuantity()
   },
 }
 </script>

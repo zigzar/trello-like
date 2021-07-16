@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const state = () => ({
   cards: [],
-  rowQuantity: [0, 0, 0, 0],
+  rowQuantity: [],
   username: 'test_100',
   password: 'test12345678',
   token: '',
@@ -11,6 +11,12 @@ export const state = () => ({
 export const getters = {
   getQuantity: (state) => (row) => {
     return state.rowQuantity[row]
+  },
+  getCards: (state) => (row) => {
+    return state.cards.filter(function (card) {
+      console.log(card.row == row)
+      return card.row == row
+    })
   },
 }
 
@@ -47,10 +53,12 @@ export const actions = {
         },
       }
     )
-    commit('setCards', response.data)
-    let quantityArr = []
-    response.data.forEach((card) => {
-      quantityArr[card.row]++
+    let data = response.data
+    commit('setCards', data)
+    let quantityArr = [0, 0, 0, 0]
+    data.forEach((card) => {
+      console.log(Number(card.row))
+      quantityArr[Number(card.row)]++
     })
     commit('setRowQuantity', quantityArr)
   },
